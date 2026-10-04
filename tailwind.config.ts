@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 import animate from "tailwindcss-animate";
-import { OCEAN } from "./lib/theme";
+import { LAGOON, SAND } from "./lib/theme";
 
 const config: Config = {
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./lib/**/*.{ts,tsx}"],
@@ -8,7 +8,8 @@ const config: Config = {
     container: { center: true, padding: "1rem", screens: { "2xl": "1400px" } },
     extend: {
       colors: {
-        ocean: OCEAN,
+        lagoon: LAGOON,
+        sand: SAND,
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

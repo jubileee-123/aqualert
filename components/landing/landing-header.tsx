@@ -29,11 +29,11 @@ export function LandingHeader() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-40 transition-colors duration-300",
-        scrolled || open ? "bg-ocean-950/95 shadow-lg backdrop-blur" : "bg-transparent",
+        scrolled || open ? "bg-lagoon-950/95 shadow-lg backdrop-blur" : "bg-transparent",
       )}
     >
       <div className="container flex h-16 items-center gap-6 text-white">
-        <Link href="/" className="flex items-center gap-2.5 rounded-md focus-visible:ring-offset-ocean-950">
+        <Link href="/" className="flex items-center gap-2.5 rounded-md focus-visible:ring-offset-lagoon-950">
           <Logo className="h-8 w-8" />
           <span className="font-display text-xl font-bold tracking-tight">AquaLert</span>
         </Link>
@@ -43,7 +43,7 @@ export function LandingHeader() {
               <li key={l.href}>
                 <a
                   href={l.href}
-                  className="rounded-md px-3 py-2 text-sm font-medium text-ocean-100 transition-colors hover:bg-white/10 hover:text-white"
+                  className="rounded-md px-3 py-2 text-sm font-medium text-lagoon-100 transition-colors hover:bg-white/10 hover:text-white"
                 >
                   {l.label}
                 </a>
@@ -52,7 +52,7 @@ export function LandingHeader() {
           </ul>
         </nav>
         <div className="ml-auto flex items-center gap-2">
-          <Button asChild size="sm" className="bg-white text-ocean-900 hover:bg-ocean-50">
+          <Button asChild size="sm" className="bg-sand-200 text-lagoon-950 hover:bg-sand-100">
             <Link href="/dashboard">Live dashboard</Link>
           </Button>
           <Button
@@ -76,7 +76,7 @@ export function LandingHeader() {
                 <a
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="block rounded-md px-3 py-3 text-base font-medium text-ocean-50 hover:bg-white/10"
+                  className="block rounded-md px-3 py-3 text-base font-medium text-lagoon-50 hover:bg-white/10"
                 >
                   {l.label}
                 </a>

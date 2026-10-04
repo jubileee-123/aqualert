@@ -9,5 +9,5 @@ export const CHART_RANGES: { value: Exclude<TimeRange, "today">; label: string }
 
 export const isMultiDay = (range: TimeRange) => range === "7d";
 
-export const AXIS_STYLE = { fontSize: 12, fill: "hsl(203 30% 32%)" };
-export const GRID_STROKE = "hsl(199 35% 88%)";
+export const AXIS_STYLE = { fontSize: 12, fill: "hsl(182 25% 30%)" };
+export const GRID_STROKE = "hsl(40 30% 86%)";

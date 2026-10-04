@@ -199,14 +199,14 @@ export function GuidedTour() {
     <div className="fixed inset-0 z-[1000]" onKeyDown={onKeyDown}>
       {/* Click-catcher so the page underneath cannot be used mid-tour. */}
       <div
-        className={cn("absolute inset-0", !spot && "bg-ocean-950/65 backdrop-blur-[1px]")}
+        className={cn("absolute inset-0", !spot && "bg-lagoon-950/65 backdrop-blur-[1px]")}
         aria-hidden="true"
       />
       {spot && (
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute rounded-xl ring-4 ring-ocean-300 transition-all duration-300 ease-out"
-          style={{ ...spot, boxShadow: "0 0 0 9999px rgb(10 38 57 / 0.65)" }}
+          className="pointer-events-none absolute rounded-xl ring-4 ring-lagoon-300 transition-all duration-300 ease-out"
+          style={{ ...spot, boxShadow: "0 0 0 9999px rgb(3 42 43 / 0.68)" }}
         />
       )}
       {resolved && (
@@ -216,11 +216,11 @@ export function GuidedTour() {
           aria-modal="true"
           aria-labelledby={titleId}
           aria-describedby={`${titleId}-body`}
-          className="absolute rounded-xl border border-ocean-200 bg-card p-5 text-card-foreground shadow-2xl transition-[top,left] duration-300 ease-out animate-in fade-in-0 zoom-in-95"
+          className="absolute rounded-xl border border-lagoon-200 bg-card p-5 text-card-foreground shadow-2xl transition-[top,left] duration-300 ease-out animate-in fade-in-0 zoom-in-95"
           style={{ top: pos.top, left: pos.left, width: pos.width }}
         >
           <div className="mb-3 flex items-center justify-between gap-3">
-            <span className="rounded-full bg-ocean-50 px-2.5 py-0.5 text-xs font-semibold text-ocean-700">
+            <span className="rounded-full bg-lagoon-50 px-2.5 py-0.5 text-xs font-semibold text-lagoon-700">
               {isFirst ? "Quick tour" : `Step ${index} of ${TOUR_STEPS.length - 1}`}
             </span>
             <button
@@ -232,7 +232,7 @@ export function GuidedTour() {
               <X className="size-4" aria-hidden="true" />
             </button>
           </div>
-          <h2 id={titleId} className="text-lg font-bold leading-snug tracking-tight text-ocean-950">
+          <h2 id={titleId} className="text-lg font-bold leading-snug tracking-tight text-lagoon-950">
             {step.title}
           </h2>
           <div id={`${titleId}-body`} className="mt-2 space-y-2 text-sm leading-relaxed text-muted-foreground">
@@ -241,7 +241,7 @@ export function GuidedTour() {
               <ul className="space-y-1.5 pl-1">
                 {step.points.map((p) => (
                   <li key={p} className="flex gap-2">
-                    <span className="mt-[7px] size-1.5 shrink-0 rounded-full bg-ocean-500" aria-hidden="true" />
+                    <span className="mt-[7px] size-1.5 shrink-0 rounded-full bg-lagoon-500" aria-hidden="true" />
                     <span>{p}</span>
                   </li>
                 ))}
@@ -250,7 +250,7 @@ export function GuidedTour() {
           </div>
 
           <div
-            className="mt-4 h-1 overflow-hidden rounded-full bg-ocean-100"
+            className="mt-4 h-1 overflow-hidden rounded-full bg-lagoon-100"
             role="progressbar"
             aria-label="Tour progress"
             aria-valuemin={1}
@@ -258,7 +258,7 @@ export function GuidedTour() {
             aria-valuenow={index + 1}
           >
             <div
-              className="h-full rounded-full bg-ocean-600 transition-all duration-300"
+              className="h-full rounded-full bg-lagoon-600 transition-all duration-300"
               style={{ width: `${((index + 1) / TOUR_STEPS.length) * 100}%` }}
             />
           </div>

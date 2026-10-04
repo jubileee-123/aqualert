@@ -4,26 +4,26 @@
 
 @layer base {
   :root {
-    /* Everything non-status derives from one ocean blue (hue ~200). See lib/theme.ts. */
-    --background: 199 50% 97%;
-    --foreground: 204 70% 12%;
+    /* Brand: lagoon teal (hue ~179) on warm sand (hue ~42). See lib/theme.ts. */
+    --background: 42 56% 96%;
+    --foreground: 182 87% 9%;
     --card: 0 0% 100%;
-    --card-foreground: 204 70% 12%;
+    --card-foreground: 182 87% 9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 204 70% 12%;
-    --primary: 200 88% 32%;
+    --popover-foreground: 182 87% 9%;
+    --primary: 179 91% 27%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 199 60% 93%;
-    --secondary-foreground: 202 70% 20%;
-    --muted: 199 45% 94%;
-    --muted-foreground: 203 30% 32%;
-    --accent: 199 70% 92%;
-    --accent-foreground: 201 75% 24%;
+    --secondary: 42 54% 91%;
+    --secondary-foreground: 180 60% 17%;
+    --muted: 42 45% 92%;
+    --muted-foreground: 182 25% 30%;
+    --accent: 172 70% 92%;
+    --accent-foreground: 179 82% 22%;
     --destructive: 0 74% 42%;
     --destructive-foreground: 0 0% 100%;
-    --border: 199 35% 85%;
-    --input: 199 30% 74%;
-    --ring: 199 80% 40%;
+    --border: 40 30% 84%;
+    --input: 40 22% 72%;
+    --ring: 178 88% 34%;
     --radius: 0.6rem;
 
     /* Status colours chosen for >= 4.5:1 contrast of text on their tinted backgrounds. */

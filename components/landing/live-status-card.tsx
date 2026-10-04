@@ -19,8 +19,8 @@ export function LiveStatusCard() {
       <div className="mb-3 flex items-center justify-between gap-3">
         <p className="flex items-center gap-2 text-sm font-semibold">
           <span className="relative flex size-2.5" aria-hidden="true">
-            <span className="absolute inline-flex size-full animate-pulse-ring rounded-full bg-ocean-500" />
-            <span className="relative inline-flex size-2.5 rounded-full bg-ocean-600" />
+            <span className="absolute inline-flex size-full animate-pulse-ring rounded-full bg-lagoon-500" />
+            <span className="relative inline-flex size-2.5 rounded-full bg-lagoon-600" />
           </span>
           Live in Accra now
         </p>
@@ -57,7 +57,7 @@ export function LiveStatusCard() {
       </ul>
       <Link
         href="/dashboard"
-        className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-ocean-700 hover:underline"
+        className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-lagoon-700 hover:underline"
       >
         Open the live dashboard <ArrowRight className="size-4" aria-hidden="true" />
       </Link>

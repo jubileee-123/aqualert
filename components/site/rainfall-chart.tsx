@@ -14,7 +14,7 @@ import {
 } from "recharts";
 import type { AlertThresholds, SensorReading, TimeRange } from "@/types";
 import { RISK_META } from "@/lib/status";
-import { OCEAN } from "@/lib/theme";
+import { LAGOON } from "@/lib/theme";
 import { formatAxisTime, formatDateTime, formatNumber } from "@/lib/format";
 import { AXIS_STYLE, GRID_STROKE, isMultiDay } from "./chart-utils";
 
@@ -71,7 +71,7 @@ export const RainfallChart = memo(function RainfallChart({ readings, thresholds,
               padding={{ left: 4, right: 4 }}
             />
             <YAxis domain={[0, yMax]} tick={AXIS_STYLE} width={44} />
-            <Tooltip content={<ChartTooltip />} cursor={{ fill: OCEAN[100] }} />
+            <Tooltip content={<ChartTooltip />} cursor={{ fill: LAGOON[100] }} />
             <ReferenceLine
               y={thresholds.rainfallWatchThresholdMmHr}
               stroke={RISK_META.WATCH.hex}
@@ -79,14 +79,14 @@ export const RainfallChart = memo(function RainfallChart({ readings, thresholds,
               strokeWidth={1.5}
               label={{ value: `Watch ${thresholds.rainfallWatchThresholdMmHr} mm/hr`, position: "insideTopLeft", fill: RISK_META.WATCH.hex, fontSize: 11, fontWeight: 600 }}
             />
-            <Bar dataKey="rate" fill={OCEAN[400]} isAnimationActive={false} />
+            <Bar dataKey="rate" fill={LAGOON[400]} isAnimationActive={false} />
           </BarChart>
         </ResponsiveContainer>
       </div>
       <figcaption className="space-y-2 text-xs text-muted-foreground">
         <ul className="flex flex-wrap gap-x-4 gap-y-1" aria-label="Chart legend">
           <li className="inline-flex items-center gap-1.5">
-            <span className="size-3 rounded-sm bg-ocean-400" aria-hidden="true" /> Rainfall intensity (mm/hr)
+            <span className="size-3 rounded-sm bg-lagoon-400" aria-hidden="true" /> Rainfall intensity (mm/hr)
           </li>
           <li className="inline-flex items-center gap-1.5">
             <span className="w-5 border-t-2 border-dashed" style={{ borderColor: RISK_META.WATCH.hex }} aria-hidden="true" />

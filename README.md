@@ -141,7 +141,7 @@ First-time visitors to `/dashboard` get a short five-step guided tour covering t
 
 ## Theme
 
-The UI uses one ocean-blue palette, defined in `lib/theme.ts` (the Tailwind `ocean-*` scale) and in the CSS variables in `app/globals.css`. Green, amber, red and grey are reserved for the Normal, Watch, Warning and Stale/Offline statuses, because those colours carry safety meaning.
+The UI pairs a lively **lagoon teal** (brand colour: buttons, links, charts, dark sections) with a warm **sand** complement (page background, soft surfaces, highlights on dark teal). Both scales live in `lib/theme.ts` (Tailwind `lagoon-*` and `sand-*`) and drive the CSS variables in `app/globals.css`. Green, amber, red and grey are reserved for the Normal, Watch, Warning and Stale/Offline statuses, because those colours carry safety meaning.
 
 ## Accessibility
 

@@ -44,13 +44,13 @@ export function AppHeader() {
   const isActive = (href: string) => (href === "/dashboard" ? pathname === "/dashboard" || pathname.startsWith("/sites") : pathname.startsWith(href));
 
   return (
-    <header className="sticky top-0 z-40 border-b border-ocean-950 bg-gradient-to-r from-ocean-950 via-ocean-900 to-ocean-800 text-white shadow-sm">
+    <header className="sticky top-0 z-40 border-b border-lagoon-950 bg-gradient-to-r from-lagoon-950 via-lagoon-900 to-lagoon-800 text-white shadow-sm">
       <div className="container flex flex-wrap items-center gap-x-6 gap-y-2 py-3">
-        <Link href="/" className="flex items-center gap-2.5 rounded-md focus-visible:ring-offset-ocean-950">
+        <Link href="/" className="flex items-center gap-2.5 rounded-md focus-visible:ring-offset-lagoon-950">
           <Logo className="h-8 w-8" />
           <span className="flex flex-col leading-tight">
             <span className="font-display text-xl font-bold tracking-tight">AquaLert</span>
-            <span className="text-[11px] font-medium uppercase tracking-wider text-ocean-200">Accra flood early warning</span>
+            <span className="text-[11px] font-medium uppercase tracking-wider text-sand-300">Accra flood early warning</span>
           </span>
         </Link>
 
@@ -63,8 +63,8 @@ export function AppHeader() {
                   href={item.href}
                   aria-current={isActive(item.href) ? "page" : undefined}
                   className={cn(
-                    "inline-block rounded-md px-3 py-2 text-sm font-medium text-ocean-100 transition-colors hover:bg-white/10 hover:text-white focus-visible:ring-offset-ocean-950",
-                    isActive(item.href) && "bg-white/15 text-white",
+                    "inline-block rounded-md px-3 py-2 text-sm font-medium text-lagoon-100 transition-colors hover:bg-white/10 hover:text-white focus-visible:ring-offset-lagoon-950",
+                    isActive(item.href) && "bg-sand-200 text-lagoon-950 hover:bg-sand-200 hover:text-lagoon-950",
                   )}
                 >
                   {item.label}
@@ -78,7 +78,7 @@ export function AppHeader() {
           <Button
             size="sm"
             variant="ghost"
-            className="text-ocean-100 hover:bg-white/10 hover:text-white focus-visible:ring-offset-ocean-950"
+            className="text-lagoon-100 hover:bg-white/10 hover:text-white focus-visible:ring-offset-lagoon-950"
             onClick={startTour}
             aria-label="Take a guided tour of the dashboard"
           >
@@ -86,8 +86,8 @@ export function AppHeader() {
             <span className="hidden sm:inline">Tour</span>
           </Button>
           <div data-tour="refresh" className="flex items-center gap-3">
-          <p className="text-right text-xs leading-tight text-ocean-100" aria-live="polite">
-            <span className="block text-[10px] uppercase tracking-wider text-ocean-300">Last updated</span>
+          <p className="text-right text-xs leading-tight text-lagoon-100" aria-live="polite">
+            <span className="block text-[10px] uppercase tracking-wider text-sand-300">Last updated</span>
             <span className="font-semibold tabular-nums text-white">
               {lastUpdated ? `${formatTime(lastUpdated)} GMT` : "--:--"}
             </span>
@@ -95,7 +95,7 @@ export function AppHeader() {
           <Button
             size="sm"
             variant="secondary"
-            className="bg-white/10 text-white hover:bg-white/20 focus-visible:ring-offset-ocean-950"
+            className="bg-white/10 text-white hover:bg-white/20 focus-visible:ring-offset-lagoon-950"
             onClick={() => client.invalidateQueries({ queryKey: queryKeys.all })}
             disabled={fetching}
           >

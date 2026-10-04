@@ -181,12 +181,12 @@ function LocationSearch({ onSelect }: { onSelect: (place: Place) => void }) {
               onClick={() => activate(s)}
               className={cn(
                 "flex cursor-pointer items-start gap-2 rounded-md px-3 py-2 text-sm",
-                i === active && "bg-ocean-50 text-ocean-900",
+                i === active && "bg-lagoon-50 text-lagoon-900",
               )}
             >
               {s.kind === "place" ? (
                 <>
-                  <MapPin className="mt-0.5 size-4 shrink-0 text-ocean-600" aria-hidden="true" />
+                  <MapPin className="mt-0.5 size-4 shrink-0 text-lagoon-600" aria-hidden="true" />
                   <span>
                     <span className="block font-medium">{s.place.name}</span>
                     {!s.place.id.startsWith("search-") && (
@@ -196,7 +196,7 @@ function LocationSearch({ onSelect }: { onSelect: (place: Place) => void }) {
                 </>
               ) : (
                 <>
-                  <Search className="mt-0.5 size-4 shrink-0 text-ocean-600" aria-hidden="true" />
+                  <Search className="mt-0.5 size-4 shrink-0 text-lagoon-600" aria-hidden="true" />
                   <span>
                     Search the map for <span className="font-medium">&ldquo;{s.query}&rdquo;</span>
                   </span>
@@ -301,7 +301,7 @@ export function FloodChecker() {
           <button
             type="button"
             onClick={useMyLocation}
-            className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-ocean-700 hover:underline"
+            className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-lagoon-700 hover:underline"
           >
             {locating ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : <LocateFixed className="size-4" aria-hidden="true" />}
             Use my location
@@ -321,7 +321,7 @@ export function FloodChecker() {
                 onClick={() => setRain(p.mmHr)}
                 className={cn(
                   "rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
-                  rain === p.mmHr ? "border-ocean-600 bg-ocean-600 text-white" : "hover:border-ocean-300 hover:bg-ocean-50",
+                  rain === p.mmHr ? "border-lagoon-600 bg-lagoon-600 text-white" : "hover:border-lagoon-300 hover:bg-lagoon-50",
                 )}
               >
                 {p.label}
@@ -343,7 +343,7 @@ export function FloodChecker() {
             value={rain}
             onChange={(e) => setRain(Number(e.target.value))}
             aria-valuetext={`${rain} millimetres per hour, ${describeRain(rain)} rain`}
-            className="mt-2 w-full accent-ocean-600"
+            className="mt-2 w-full accent-lagoon-600"
           />
         </fieldset>
 
@@ -358,7 +358,7 @@ export function FloodChecker() {
                 onClick={() => setDuration(d.minutes)}
                 className={cn(
                   "rounded-md px-2 py-1.5 text-sm font-medium",
-                  duration === d.minutes ? "bg-background text-ocean-800 shadow-sm" : "text-muted-foreground hover:text-foreground",
+                  duration === d.minutes ? "bg-background text-lagoon-800 shadow-sm" : "text-muted-foreground hover:text-foreground",
                 )}
               >
                 {d.label}
@@ -371,7 +371,7 @@ export function FloodChecker() {
           <legend className="mb-1.5 text-sm font-semibold">Starting from</legend>
           <div className="space-y-2 text-sm">
             <label className="flex cursor-pointer items-start gap-2">
-              <input type="radio" name="start" checked={fromLive} onChange={() => setFromLive(true)} className="mt-1 accent-ocean-600" />
+              <input type="radio" name="start" checked={fromLive} onChange={() => setFromLive(true)} className="mt-1 accent-lagoon-600" />
               <span>
                 Today&rsquo;s conditions
                 <span className="block text-xs text-muted-foreground">
@@ -382,7 +382,7 @@ export function FloodChecker() {
               </span>
             </label>
             <label className="flex cursor-pointer items-start gap-2">
-              <input type="radio" name="start" checked={!fromLive} onChange={() => setFromLive(false)} className="mt-1 accent-ocean-600" />
+              <input type="radio" name="start" checked={!fromLive} onChange={() => setFromLive(false)} className="mt-1 accent-lagoon-600" />
               <span>
                 Dry ground
                 <span className="block text-xs text-muted-foreground">Channels at their normal dry-weather level.</span>
@@ -396,7 +396,7 @@ export function FloodChecker() {
       <div className="rounded-2xl border bg-card p-5 shadow-sm sm:p-6" aria-live="polite">
         {!estimate || !meta || !tone ? (
           <div className="flex h-full min-h-[320px] flex-col items-center justify-center text-center">
-            <span className="mb-4 flex size-14 items-center justify-center rounded-full bg-ocean-50 text-ocean-600">
+            <span className="mb-4 flex size-14 items-center justify-center rounded-full bg-lagoon-50 text-lagoon-600">
               <MapPin className="size-7" aria-hidden="true" />
             </span>
             <h3 className="text-xl font-bold">Choose an area to see its flood risk</h3>

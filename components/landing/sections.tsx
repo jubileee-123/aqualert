@@ -26,16 +26,16 @@ import { cn } from "@/lib/utils";
 function SectionHeading({ eyebrow, title, intro, light }: { eyebrow: string; title: string; intro?: string; light?: boolean }) {
   return (
     <div className="mx-auto mb-10 max-w-2xl text-center">
-      <p className={cn("text-sm font-semibold uppercase tracking-widest", light ? "text-ocean-300" : "text-ocean-600")}>{eyebrow}</p>
+      <p className={cn("text-sm font-semibold uppercase tracking-widest", light ? "text-sand-300" : "text-lagoon-600")}>{eyebrow}</p>
       <h2 className={cn("mt-2 text-3xl font-bold tracking-tight sm:text-4xl", light && "text-white")}>{title}</h2>
-      {intro && <p className={cn("mt-4 text-lg", light ? "text-ocean-100" : "text-muted-foreground")}>{intro}</p>}
+      {intro && <p className={cn("mt-4 text-lg", light ? "text-lagoon-100" : "text-muted-foreground")}>{intro}</p>}
     </div>
   );
 }
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-ocean-950 via-ocean-900 to-ocean-700 pb-24 pt-28 text-white sm:pt-32">
+    <section className="relative overflow-hidden bg-gradient-to-br from-lagoon-950 via-lagoon-900 to-lagoon-700 pb-24 pt-28 text-white sm:pt-32">
       <svg
         className="pointer-events-none absolute inset-x-0 bottom-0 h-24 w-full text-background"
         viewBox="0 0 1440 120"
@@ -51,19 +51,19 @@ export function Hero() {
       </svg>
       <div className="container relative grid items-center gap-12 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
         <div>
-          <p className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-sm font-medium text-ocean-100">
+          <p className="inline-flex items-center gap-2 rounded-full border border-sand-300/30 bg-sand-200/10 px-3 py-1 text-sm font-medium text-sand-100">
             <Waves className="size-4" aria-hidden="true" />
             Community flood early warning for Accra
           </p>
           <h1 className="mt-6 text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
-            Know before the water rises.
+            Know before the <span className="text-sand-300">water rises.</span>
           </h1>
-          <p className="mt-6 max-w-xl text-lg text-ocean-100 sm:text-xl">
+          <p className="mt-6 max-w-xl text-lg text-lagoon-100 sm:text-xl">
             AquaLert sensors watch Accra&rsquo;s drains and rivers around the clock and warn communities by SMS and
             WhatsApp before floods reach their homes. Check how your area could be affected the next time it rains.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Button asChild size="lg" className="bg-white text-ocean-900 hover:bg-ocean-50">
+            <Button asChild size="lg" className="bg-sand-200 text-lagoon-950 hover:bg-sand-100">
               <a href="#check">
                 Check your area <ArrowRight aria-hidden="true" />
               </a>
@@ -81,7 +81,7 @@ export function Hero() {
               <div key={l}>
                 <dt className="sr-only">{l}</dt>
                 <dd className="font-display text-3xl font-bold">{v}</dd>
-                <dd className="text-sm text-ocean-200">{l}</dd>
+                <dd className="text-sm text-sand-200">{l}</dd>
               </div>
             ))}
           </dl>
@@ -117,13 +117,13 @@ const AUDIENCE = [
 
 export function AudienceSection() {
   return (
-    <section className="bg-ocean-50/60 py-20">
+    <section className="bg-sand-100 py-20">
       <div className="container">
         <SectionHeading eyebrow="Who it's for" title="Built for the people who need to act first" />
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {AUDIENCE.map(({ icon: Icon, title, body }) => (
             <li key={title} className="rounded-xl border bg-card p-5 shadow-sm">
-              <span className="flex size-10 items-center justify-center rounded-lg bg-ocean-100 text-ocean-700">
+              <span className="flex size-10 items-center justify-center rounded-lg bg-lagoon-100 text-lagoon-700">
                 <Icon className="size-5" aria-hidden="true" />
               </span>
               <h3 className="mt-4 text-lg font-bold">{title}</h3>
@@ -155,10 +155,10 @@ export function HowSection() {
         <ol className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {STEPS.map(({ icon: Icon, title, body }, i) => (
             <li key={title} className="relative rounded-xl border bg-card p-6 shadow-sm">
-              <span className="absolute right-5 top-5 font-display text-4xl font-extrabold text-ocean-100" aria-hidden="true">
+              <span className="absolute right-5 top-5 font-display text-4xl font-extrabold text-sand-200" aria-hidden="true">
                 {i + 1}
               </span>
-              <span className="flex size-11 items-center justify-center rounded-full bg-ocean-600 text-white">
+              <span className="flex size-11 items-center justify-center rounded-full bg-lagoon-600 text-white">
                 <Icon className="size-5" aria-hidden="true" />
               </span>
               <h3 className="mt-4 text-xl font-bold">{title}</h3>
@@ -197,7 +197,7 @@ const LEVELS = [
 
 export function GuideSection() {
   return (
-    <section id="guide" className="scroll-mt-20 bg-ocean-950 py-20 text-white">
+    <section id="guide" className="scroll-mt-20 bg-lagoon-950 py-20 text-white">
       <div className="container">
         <SectionHeading
           light
@@ -216,7 +216,7 @@ export function GuideSection() {
               <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
                 {actions.map((a) => (
                   <li key={a} className="flex gap-2">
-                    <span className="mt-[7px] size-1.5 shrink-0 rounded-full bg-ocean-500" aria-hidden="true" />
+                    <span className="mt-[7px] size-1.5 shrink-0 rounded-full bg-lagoon-500" aria-hidden="true" />
                     {a}
                   </li>
                 ))}
@@ -227,15 +227,15 @@ export function GuideSection() {
 
         <div className="mt-12 rounded-xl border border-white/15 bg-white/5 p-6">
           <h3 className="flex items-center gap-2 text-lg font-bold">
-            <CloudRain className="size-5 text-ocean-300" aria-hidden="true" />
+            <CloudRain className="size-5 text-sand-300" aria-hidden="true" />
             How heavy is the rain?
           </h3>
           <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
             {RAIN_PRESETS.map((p) => (
               <li key={p.label} className="rounded-lg bg-white/5 p-3">
                 <p className="font-semibold">{p.label}</p>
-                <p className="font-display text-2xl font-bold text-ocean-200">{p.mmHr} mm/hr</p>
-                <p className="mt-1 text-sm text-ocean-100">{p.description}</p>
+                <p className="font-display text-2xl font-bold text-sand-200">{p.mmHr} mm/hr</p>
+                <p className="mt-1 text-sm text-lagoon-100">{p.description}</p>
               </li>
             ))}
           </ul>
@@ -278,7 +278,7 @@ export function FaqSection() {
             <details key={q} className="group p-5">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold [&::-webkit-details-marker]:hidden">
                 {q}
-                <span className="text-xl text-ocean-600 transition-transform group-open:rotate-45" aria-hidden="true">
+                <span className="text-xl text-lagoon-600 transition-transform group-open:rotate-45" aria-hidden="true">
                   +
                 </span>
               </summary>
@@ -295,12 +295,12 @@ export function CtaSection() {
   return (
     <section className="pb-20">
       <div className="container">
-        <div className="flex flex-col items-start justify-between gap-6 rounded-2xl bg-gradient-to-r from-ocean-800 to-ocean-600 p-8 text-white sm:p-10 md:flex-row md:items-center">
+        <div className="flex flex-col items-start justify-between gap-6 rounded-2xl bg-gradient-to-r from-lagoon-800 via-lagoon-700 to-lagoon-600 p-8 text-white sm:p-10 md:flex-row md:items-center">
           <div>
             <h2 className="text-2xl font-bold sm:text-3xl">See what the sensors see right now</h2>
-            <p className="mt-2 text-ocean-100">Live water levels, rainfall and alerts for every AquaLert site in Accra.</p>
+            <p className="mt-2 text-sand-100">Live water levels, rainfall and alerts for every AquaLert site in Accra.</p>
           </div>
-          <Button asChild size="lg" className="bg-white text-ocean-900 hover:bg-ocean-50">
+          <Button asChild size="lg" className="bg-sand-200 text-lagoon-950 hover:bg-sand-100">
             <Link href="/dashboard">
               Open the dashboard <ArrowRight aria-hidden="true" />
             </Link>
@@ -313,7 +313,7 @@ export function CtaSection() {
 
 export function LandingFooter() {
   return (
-    <footer className="border-t bg-ocean-950 py-10 text-ocean-100">
+    <footer className="border-t bg-lagoon-950 py-10 text-sand-100">
       <div className="container flex flex-col gap-6 text-sm md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-2.5">
           <Logo className="h-7 w-7" />
