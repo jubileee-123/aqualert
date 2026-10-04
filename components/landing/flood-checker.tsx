@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
-import { ArrowRight, Info, LocateFixed, Loader2, MapPin, Search } from "lucide-react";
+import { ArrowRight, CloudRain, Info, LocateFixed, Loader2, MapPin, Search, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { RiskBadge } from "@/components/status/status-badge";
-import { useSiteOverviews } from "@/lib/hooks/queries";
+import { useRainOutlook, useSiteOverviews } from "@/lib/hooks/queries";
+import { SourceTag } from "@/components/weather/data-source-note";
 import { EXPOSURE_FACTOR, EXPOSURE_LABEL, PLACES, searchPlaces, type Place } from "@/lib/constants/places";
 import { geocodeAccra, toPlace } from "@/lib/geocode";
 import {
@@ -18,7 +19,7 @@ import {
   type Likelihood,
   type LocationInput,
 } from "@/lib/forecast";
-import { formatNumber } from "@/lib/format";
+import { formatDayHour, formatNumber } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 const DURATIONS = [
@@ -244,14 +245,33 @@ function Fact({ label, value, hint }: { label: string; value: React.ReactNode; h
  */
 export function FloodChecker() {
   const [place, setPlace] = useState<Place | null>(null);
-  const [rain, setRain] = useState(25);
-  const [duration, setDuration] = useState(60);
+  // "forecast" uses the real rain forecast for the place; "whatif" uses the person's own scenario.
+  const [mode, setMode] = useState<"forecast" | "whatif">("forecast");
+  const [customRain, setCustomRain] = useState(25);
+  const [customDuration, setCustomDuration] = useState(60);
   const [fromLive, setFromLive] = useState(true);
   const [locating, setLocating] = useState(false);
   const [geoError, setGeoError] = useState<string | null>(null);
   const { data: overviews } = useSiteOverviews();
 
   const location = place ? toLocation(place) : null;
+  const outlook = useRainOutlook(place ? { latitude: place.latitude, longitude: place.longitude } : null);
+  const storm = outlook.data?.storm ?? null;
+  const usingForecast = mode === "forecast" && !!outlook.data;
+  // Hourly forecast totals are average intensities; short bursts inside the hour can be heavier.
+  const rain = usingForecast ? (storm ? Math.round(storm.peakMmHr * 10) / 10 : 0) : customRain;
+  const duration = usingForecast ? (storm ? Math.min(360, Math.max(60, storm.durationMin)) : 60) : customDuration;
+  const setRain = (v: number) => {
+    setMode("whatif");
+    setCustomRain(v);
+    if (mode === "forecast") setCustomDuration(duration);
+  };
+  const setDuration = (v: number) => {
+    setMode("whatif");
+    setCustomDuration(v);
+    if (mode === "forecast") setCustomRain(Math.max(1, Math.round(rain)));
+  };
+  const rainText = (mmHr: number) => (mmHr < 0.5 ? "no significant rain" : `${formatNumber(mmHr, mmHr < 10 ? 1 : 0)} mm/hr of ${describeRain(mmHr)} rain`);
   const siteId = location ? siteForLocation(location).site.siteId : null;
   const live = overviews?.find((o) => o.site.siteId === siteId);
   const liveLevel = live && live.site.status !== "OFFLINE" ? live.latestReading?.waterLevelCm : undefined;
@@ -309,6 +329,51 @@ export function FloodChecker() {
           {geoError && <p className="mt-1 text-sm text-status-warning">{geoError}</p>}
         </div>
 
+        <div>
+          <p className="mb-1.5 text-sm font-semibold" id="rain-source-label">Which rain?</p>
+          <div className="grid grid-cols-2 gap-1 rounded-lg bg-muted p-1" role="group" aria-labelledby="rain-source-label">
+            {(
+              [
+                { value: "forecast", label: "Real forecast", icon: CloudRain },
+                { value: "whatif", label: "What if…", icon: SlidersHorizontal },
+              ] as const
+            ).map(({ value, label, icon: Icon }) => (
+              <button
+                key={value}
+                type="button"
+                aria-pressed={mode === value}
+                onClick={() => {
+                  if (value === "whatif" && mode === "forecast") {
+                    setCustomRain(Math.max(1, Math.round(rain)) || 25);
+                    setCustomDuration(duration);
+                  }
+                  setMode(value);
+                }}
+                className={cn(
+                  "inline-flex items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-sm font-medium",
+                  mode === value ? "bg-background text-lagoon-800 shadow-sm" : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                <Icon className="size-4" aria-hidden="true" />
+                {label}
+              </button>
+            ))}
+          </div>
+          <p className="mt-1.5 text-xs text-muted-foreground">
+            {mode === "forecast"
+              ? !place
+                ? "Uses the next 48 hours of rain forecast for your area once you pick it."
+                : outlook.isPending
+                  ? "Getting the rain forecast for your area…"
+                  : outlook.isError
+                    ? "The rain forecast is unavailable right now, so this shows your own scenario instead."
+                    : storm
+                      ? `Heaviest rain forecast: about ${formatNumber(storm.peakMmHr, 1)} mm/hr around ${formatDayHour(storm.peakTime)} GMT${storm.probability !== null ? ` (${storm.probability}% chance)` : ""}.`
+                      : "No significant rain is forecast for the next 48 hours."
+              : "Choose any rain to see what it would do."}
+          </p>
+        </div>
+
         <fieldset>
           <legend className="mb-1.5 text-sm font-semibold">How hard is it raining?</legend>
           <div className="flex flex-wrap gap-2">
@@ -331,7 +396,8 @@ export function FloodChecker() {
           <label htmlFor="rain-intensity" className="mt-4 flex items-baseline justify-between text-sm">
             <span className="text-muted-foreground">Rain intensity</span>
             <span className="font-semibold">
-              {rain} mm/hr <span className="font-normal text-muted-foreground">· {describeRain(rain)}</span>
+              {formatNumber(rain, rain < 10 ? 1 : 0)} mm/hr{" "}
+              <span className="font-normal text-muted-foreground">· {rain < 0.5 ? "none" : describeRain(rain)}</span>
             </span>
           </label>
           <input
@@ -340,7 +406,7 @@ export function FloodChecker() {
             min={1}
             max={120}
             step={1}
-            value={rain}
+            value={Math.max(1, Math.round(rain))}
             onChange={(e) => setRain(Number(e.target.value))}
             aria-valuetext={`${rain} millimetres per hour, ${describeRain(rain)} rain`}
             className="mt-2 w-full accent-lagoon-600"
@@ -418,7 +484,16 @@ export function FloodChecker() {
           <div className="space-y-5">
             <div>
               <p className="text-sm text-muted-foreground">
-                {rain} mm/hr of {describeRain(rain)} rain for {minutesText(duration)} in
+                {usingForecast ? (
+                  <span className="inline-flex flex-wrap items-center gap-x-2">
+                    <SourceTag kind="live" />
+                    {storm
+                      ? `Forecast: ${rainText(rain)} for about ${minutesText(duration)} on ${formatDayHour(storm.peakTime)} in`
+                      : "Forecast: no significant rain in the next 48 hours in"}
+                  </span>
+                ) : (
+                  `What if: ${rainText(rain)} for ${minutesText(duration)} in`
+                )}
               </p>
               <h3 className="text-2xl font-bold" data-testid="checker-place">
                 {place?.name}
@@ -493,7 +568,7 @@ export function FloodChecker() {
                 className="flex items-center justify-between gap-3 rounded-lg border p-3 text-sm hover:bg-muted/60"
               >
                 <span>
-                  <span className="block text-xs text-muted-foreground">Right now at the {live.site.siteName} sensor</span>
+                  <span className="block text-xs text-muted-foreground">Right now at the {live.site.siteName} sensor (simulated)</span>
                   <span className="font-semibold">
                     {live.site.status === "OFFLINE" ? "Sensor offline" : live.latestReading ? `Water ${formatNumber(live.latestReading.waterLevelCm)} cm` : "No data yet"}
                   </span>
@@ -511,8 +586,10 @@ export function FloodChecker() {
                 Estimate based on the {estimate.site.siteName} sensor, {formatNumber(estimate.distanceKm, 1)} km away (
                 {estimate.confidence.toLowerCase()} confidence
                 {farAway ? "; your location is outside our sensor network, so treat this as a rough guide" : ""}). It uses the
-                channel&rsquo;s alert thresholds and a simple rainfall model. It is not an official forecast: blocked drains,
-                tides and rain upstream can make things worse. Follow NADMO and Ghana Meteorological Agency advice.
+                channel&rsquo;s alert thresholds and a simple rainfall model. The rain forecast is real (Open-Meteo weather
+                models, hourly averages, so short bursts can be heavier); the channel levels are simulated until AquaLert
+                sensors are installed. It is not an official flood forecast: blocked drains, tides and rain upstream can make
+                things worse. Follow NADMO and Ghana Meteorological Agency advice.
               </span>
             </p>
           </div>

@@ -56,3 +56,10 @@ export function formatRise(n: number): string {
 export function titleCase(s: string): string {
   return s.charAt(0) + s.slice(1).toLowerCase();
 }
+
+const dayHour = new Intl.DateTimeFormat("en-GB", { weekday: "short", hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "UTC" });
+
+/** "Tue 15:00" in Accra time, for forecast hours. */
+export function formatDayHour(ms: number): string {
+  return dayHour.format(new Date(ms));
+}

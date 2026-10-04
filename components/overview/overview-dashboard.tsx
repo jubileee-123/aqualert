@@ -16,6 +16,8 @@ import { OverviewFilters, OVERVIEW_RANGES } from "./overview-filters";
 import { LiveSiteCard } from "./live-site-card";
 import { SiteMapLazy } from "./site-map-lazy";
 import { MapLegend } from "./map-legend";
+import { DataSourceNote } from "@/components/weather/data-source-note";
+import { RainOutlookPanel } from "@/components/weather/rain-outlook-panel";
 
 /** Most urgent first: Warning, Watch, Normal; reporting nodes before silent ones. */
 export function sortByUrgency(a: SiteOverview, b: SiteOverview): number {
@@ -52,6 +54,7 @@ export function OverviewDashboard() {
 
   return (
     <div className="space-y-5">
+      <DataSourceNote />
       {isPending ? (
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           {Array.from({ length: 4 }, (_, i) => (
@@ -117,6 +120,8 @@ export function OverviewDashboard() {
           ))}
         </ul>
       )}
+
+      <RainOutlookPanel />
     </div>
   );
 }

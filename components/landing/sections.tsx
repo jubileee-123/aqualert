@@ -99,7 +99,7 @@ export function CheckerSection() {
         <SectionHeading
           eyebrow="Flood risk checker"
           title="How likely is your area to flood?"
-          intro="Type your neighbourhood and choose how hard it is raining. We'll estimate the chance of flooding from the nearest AquaLert sensor and its alert thresholds."
+          intro="Type your neighbourhood to see the chance of flooding from the real rain forecast for the next 48 hours, or try your own what-if storm. The estimate uses the nearest AquaLert sensor and its alert thresholds."
         />
         <FloodChecker />
       </div>
@@ -264,7 +264,7 @@ const FAQ = [
   },
   {
     q: "Is the data on this site real?",
-    a: "This prototype runs on realistic simulated data for six Accra sites so the system can be tested before the sensors go live.",
+    a: "Partly. Rainfall and the rain forecast are real, from Open-Meteo weather models, and the flood checker uses that forecast. Water levels, alerts and node health are still simulated for six Accra sites, because AquaLert’s sensors are not installed yet. No public live water-level feed exists for Accra’s drains, so those numbers become real when our own sensors (or a partner’s) are connected.",
   },
 ];
 

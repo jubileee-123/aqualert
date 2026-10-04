@@ -17,6 +17,8 @@ import { NodeHealthPanel } from "./node-health-panel";
 import { WaterLevelChart } from "./water-level-chart";
 import { RainfallChart } from "./rainfall-chart";
 import { RecentAlertsList } from "./recent-alerts-list";
+import { RainForecastCard } from "@/components/weather/rain-forecast-card";
+import { DataSourceNote, SourceTag } from "@/components/weather/data-source-note";
 import { CHART_RANGES } from "./chart-utils";
 
 type ChartRange = (typeof CHART_RANGES)[number]["value"];
@@ -114,7 +116,7 @@ export function SiteDetail({ siteId }: { siteId: string }) {
         <div className="grid gap-4 xl:grid-cols-2">
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-base">Water level</CardTitle>
+              <CardTitle className="flex items-center gap-2 text-base">Water level <SourceTag kind="simulated" /></CardTitle>
               <CardDescription>Centimetres above the channel bed</CardDescription>
             </CardHeader>
             <CardContent aria-busy={series.isFetching}>
@@ -131,7 +133,7 @@ export function SiteDetail({ siteId }: { siteId: string }) {
           </Card>
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-base">Rainfall intensity</CardTitle>
+              <CardTitle className="flex items-center gap-2 text-base">Rainfall intensity <SourceTag kind="simulated" /></CardTitle>
               <CardDescription>Millimetres per hour from the tipping-bucket gauge</CardDescription>
             </CardHeader>
             <CardContent>
@@ -145,6 +147,8 @@ export function SiteDetail({ siteId }: { siteId: string }) {
             </CardContent>
           </Card>
         </div>
+        <RainForecastCard siteId={s.siteId} siteName={s.siteName} watchMmHr={thresholds.rainfallWatchThresholdMmHr} />
+        <DataSourceNote compact />
       </section>
 
       <Card data-tour="recent-alerts">

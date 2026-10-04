@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { useSiteOverviews } from "@/lib/hooks/queries";
+import { useSiteOverviews, useSiteRainOutlooks } from "@/lib/hooks/queries";
+import { SourceTag } from "@/components/weather/data-source-note";
+import { formatDayHour } from "@/lib/format";
 import { sortByUrgency } from "@/components/overview/overview-dashboard";
 import { RiskBadge, NodeStatusBadge } from "@/components/status/status-badge";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -13,6 +15,8 @@ export function LiveStatusCard() {
   const { data, isPending } = useSiteOverviews();
   const sites = data ? [...data].sort(sortByUrgency) : [];
   const warnings = sites.filter((s) => s.riskStatus === "WARNING").length;
+  // Central Accra (Circle) stands in for the city's weather.
+  const rain = useSiteRainOutlooks().data?.circle;
 
   return (
     <div className="rounded-2xl border border-white/15 bg-white/95 p-5 text-foreground shadow-2xl backdrop-blur">
@@ -22,9 +26,9 @@ export function LiveStatusCard() {
             <span className="absolute inline-flex size-full animate-pulse-ring rounded-full bg-lagoon-500" />
             <span className="relative inline-flex size-2.5 rounded-full bg-lagoon-600" />
           </span>
-          Live in Accra now
+          Sensor network status
         </p>
-        <span className="text-xs text-muted-foreground">Updates every 30 s</span>
+        <span className="text-xs text-muted-foreground">Simulated sensor data</span>
       </div>
       {warnings > 0 && (
         <p className="mb-3 rounded-lg bg-status-warning-bg px-3 py-2 text-xs font-semibold text-status-warning">
@@ -55,6 +59,18 @@ export function LiveStatusCard() {
               </li>
             ))}
       </ul>
+      {rain && (
+        <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-lg bg-lagoon-50 px-3 py-2 text-xs text-lagoon-900">
+          <SourceTag kind="live" />
+          <span>
+            Central Accra rain now: <strong>{rain.nowMmHr < 0.1 ? "dry" : `${formatNumber(rain.nowMmHr, 1)} mm/hr`}</strong>
+            {" · "}
+            {rain.storm
+              ? `heaviest next: ${formatNumber(rain.storm.peakMmHr, 1)} mm/hr ${formatDayHour(rain.storm.peakTime)}`
+              : "no rain expected in 48 h"}
+          </span>
+        </p>
+      )}
       <Link
         href="/dashboard"
         className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-lagoon-700 hover:underline"

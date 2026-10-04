@@ -5,6 +5,8 @@ import { api } from "@/lib/api";
 import { getThresholds } from "@/lib/constants/thresholds";
 import { LIVE_REFETCH_MS } from "@/lib/constants/config";
 import type { AlertEvent, SiteOverview, TimeRangeInput } from "@/types";
+import { SITE_CONFIGS } from "@/lib/constants/sites";
+import { fetchRainOutlooks, type GeoPoint, type RainOutlook } from "@/lib/weather/open-meteo";
 
 /** Query key factory: one place to see what is cached and how to invalidate it. */
 export const queryKeys = {
@@ -96,5 +98,30 @@ export function useNotifications(alertId: string | null) {
     queryFn: () => api.getNotificationsByAlert(alertId ?? ""),
     enabled: !!alertId,
     ...live,
+  });
+}
+
+const RAIN_REFETCH_MS = 15 * 60_000;
+const rain = { staleTime: 10 * 60_000, refetchInterval: RAIN_REFETCH_MS, retry: 1 } as const;
+
+/** Live rain outlook (Open-Meteo) at every monitoring site, keyed by site ID. */
+export function useSiteRainOutlooks() {
+  return useQuery({
+    queryKey: [...queryKeys.all, "rain", "sites"],
+    queryFn: async ({ signal }) => {
+      const outlooks = await fetchRainOutlooks(SITE_CONFIGS, signal);
+      return Object.fromEntries(SITE_CONFIGS.map((s, i) => [s.siteId, outlooks[i]!])) as Record<string, RainOutlook>;
+    },
+    ...rain,
+  });
+}
+
+/** Live rain outlook (Open-Meteo) at one location, e.g. the place picked in the flood checker. */
+export function useRainOutlook(point: GeoPoint | null) {
+  return useQuery({
+    queryKey: [...queryKeys.all, "rain", point?.latitude.toFixed(3), point?.longitude.toFixed(3)],
+    queryFn: async ({ signal }) => (await fetchRainOutlooks([point!], signal))[0]!,
+    enabled: !!point,
+    ...rain,
   });
 }

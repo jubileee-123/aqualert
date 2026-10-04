@@ -2,7 +2,7 @@
 
 Live flood-monitoring dashboard for **AquaLert**, a community flood early-warning network for Accra, Ghana. It shows water level, rainfall intensity, rise rate and node health for each monitoring site, the current risk status (Normal / Watch / Warning), and a full alert history with the SMS, WhatsApp and dashboard notification trail behind every alert.
 
-This is a hackathon prototype. It ships with a realistic **simulated** data source and is built so the real backend can be connected without changing any screens.
+This is a hackathon prototype. **Rainfall and the rain forecast are real** (Open-Meteo weather models). **Sensor readings (water level, gauge rainfall, rise rate), alerts and node health are simulated** until AquaLert's sensors are installed; the app is built so the real backend can be connected without changing any screens.
 
 ## Run it locally
 
@@ -63,6 +63,24 @@ lib/
 types/                   Shared TypeScript types (AquaLert data dictionary)
 tests/                   Vitest test suite
 ```
+
+## Data sources
+
+| Data | Source | Status |
+| ---- | ------ | ------ |
+| Rain now, past 24 h, next 48 h forecast (hourly, per site and per searched place) | [Open-Meteo](https://open-meteo.com) forecast API, `lib/weather/open-meteo.ts` | **Live.** Free and keyless for non-commercial use, called from the browser and refreshed every 15 min. Model estimates, not rain-gauge readings. |
+| Flood checker rain scenario | Open-Meteo forecast for the chosen place (heaviest forecast hour and the rainy hours around it) | **Live** by default; "What if…" switches to a scenario the user picks. |
+| Water level, gauge rainfall, rise rate, battery, signal | AquaLert sensor nodes via `AquaLertApi` | **Simulated** (`lib/api/mock`). There is no public live water-level feed for Accra's drains. |
+| Alerts and notification logs | Derived from sensor readings | **Simulated**, follows the real alert rules. |
+
+To make the rest real:
+
+- **AquaLert's own sensors:** point `NEXT_PUBLIC_API_MODE=http` at the backend (below).
+- **TAHMO** (Trans-African Hydro-Meteorological Observatory) runs weather stations in Ghana with real rain-gauge data. Access is free for research and non-profit use but needs a request through [tahmo.org/climate-data](https://tahmo.org/climate-data/); once granted, its station rainfall can replace the model rainfall.
+- **Ghana Hydrological Authority** and **GMet** hold river-gauge and rainfall records but publish no open live API; a data-sharing agreement would be needed.
+- **Commercial use** of Open-Meteo needs a paid plan: set `NEXT_PUBLIC_OPEN_METEO_URL` to the customer endpoint (with key).
+
+Open-Meteo's GloFAS flood API was considered for river discharge, but at ~5 km resolution it does not resolve Accra's urban drains (Odaw, Kaneshie, Circle), so it is not used.
 
 ## Swapping the mock for the real backend
 
