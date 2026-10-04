@@ -27,13 +27,13 @@ const gridView = () => useOverviewFilters.getState().setView("grid");
 export const TOUR_STEPS: TourStep[] = [
   {
     id: "welcome",
-    path: "/",
+    path: "/dashboard",
     title: "Welcome to AquaLert",
     body: "AquaLert watches drains and rivers across Accra and warns communities before flooding. Take a quick five-step tour, or skip it and explore on your own.",
   },
   {
     id: "statuses",
-    path: "/",
+    path: "/dashboard",
     target: sel("summary"),
     title: "Three levels of flood risk",
     body: "These tiles count how many sites are at each level. Colour, icon and word always appear together.",
@@ -46,7 +46,7 @@ export const TOUR_STEPS: TourStep[] = [
   },
   {
     id: "site-card",
-    path: "/",
+    path: "/dashboard",
     target: sel("site-card"),
     title: "Reading a site",
     body: "Each card is one sensor site, most urgent first. Water is the depth in the channel, Rain is how hard it is raining, and Rise is how fast the water is climbing, which is the main danger sign. Press View details for the full picture.",

@@ -9,7 +9,7 @@ const push = vi.fn();
 // Next's router object is stable between renders; mirror that.
 const router = { push };
 vi.mock("next/navigation", () => ({
-  usePathname: () => "/",
+  usePathname: () => "/dashboard",
   useRouter: () => router,
 }));
 
@@ -78,8 +78,8 @@ describe("GuidedTour", () => {
         <GuidedTour />
       </>,
     );
-    // The mocked router stays on "/", so check every overview step.
-    const overviewSteps = TOUR_STEPS.map((s, i) => ({ s, i })).filter(({ s, i }) => s.path === "/" && i < TOUR_STEPS.length - 1);
+    // The mocked router stays on "/dashboard", so check every overview step.
+    const overviewSteps = TOUR_STEPS.map((s, i) => ({ s, i })).filter(({ s, i }) => s.path === "/dashboard" && i < TOUR_STEPS.length - 1);
     for (const { i } of overviewSteps) {
       act(() => useTour.setState({ active: true, index: i }));
       expect(await screen.findByRole("button", { name: "Skip tour" })).toBeInTheDocument();

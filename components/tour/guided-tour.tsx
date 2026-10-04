@@ -75,7 +75,7 @@ export function GuidedTour() {
 
   // Auto-start once for first-time visitors landing on the overview.
   useEffect(() => {
-    if (pathname !== "/" || hasCompletedTour()) return;
+    if (pathname !== "/dashboard" || hasCompletedTour()) return;
     const id = setTimeout(() => {
       if (!useTour.getState().active) start();
     }, 900);
@@ -283,10 +283,10 @@ export function GuidedTour() {
               ref={primaryRef}
               size="sm"
               onClick={() => {
-                // Finishing returns people to the overview, where they started.
+                // Finishing returns people to the dashboard overview, where they started.
                 if (isLast) {
                   end();
-                  router.push("/");
+                  router.push("/dashboard");
                 } else next();
               }}
             >

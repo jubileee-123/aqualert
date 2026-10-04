@@ -33,7 +33,7 @@ export function SiteDetail({ siteId }: { siteId: string }) {
   const back = (
     <nav aria-label="Breadcrumb" className="mb-4">
       <Button asChild variant="ghost" size="sm" className="-ml-3">
-        <Link href="/">
+        <Link href="/dashboard">
           <ArrowLeft aria-hidden="true" />
           Back to overview
         </Link>
@@ -59,7 +59,7 @@ export function SiteDetail({ siteId }: { siteId: string }) {
       <>
         {back}
         <EmptyState title="Site not found">
-          There is no AquaLert site with the ID “{siteId}”. <Link className="underline" href="/">Return to the overview</Link>.
+          There is no AquaLert site with the ID “{siteId}”. <Link className="underline" href="/dashboard">Return to the overview</Link>.
         </EmptyState>
       </>
     );

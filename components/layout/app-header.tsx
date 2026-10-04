@@ -13,7 +13,7 @@ import { formatTime } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 const NAV = [
-  { href: "/", label: "Overview" },
+  { href: "/dashboard", label: "Overview" },
   { href: "/alerts", label: "Alerts" },
   { href: "/about", label: "About" },
 ];
@@ -41,7 +41,7 @@ export function AppHeader() {
   const lastUpdated = useLastUpdated();
   const startTour = useTour((s) => s.start);
 
-  const isActive = (href: string) => (href === "/" ? pathname === "/" || pathname.startsWith("/sites") : pathname.startsWith(href));
+  const isActive = (href: string) => (href === "/dashboard" ? pathname === "/dashboard" || pathname.startsWith("/sites") : pathname.startsWith(href));
 
   return (
     <header className="sticky top-0 z-40 border-b border-ocean-950 bg-gradient-to-r from-ocean-950 via-ocean-900 to-ocean-800 text-white shadow-sm">

@@ -2,8 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
-import { AppHeader } from "@/components/layout/app-header";
-import { SiteFooter } from "@/components/layout/site-footer";
 import { GuidedTour } from "@/components/tour/guided-tour";
 
 // Self-hosted at build time by next/font: Inter for body text, Bricolage Grotesque for headings.
@@ -11,9 +9,9 @@ const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-int
 const bricolage = Bricolage_Grotesque({ subsets: ["latin"], display: "swap", variable: "--font-bricolage" });
 
 export const metadata: Metadata = {
-  title: { default: "AquaLert | Accra Flood Early Warning", template: "%s | AquaLert" },
+  title: { default: "AquaLert | Know before the water rises", template: "%s | AquaLert" },
   description:
-    "Live water level, rainfall and flood alerts from AquaLert community sensor nodes across Accra's flood-prone corridors.",
+    "Check how likely your part of Accra is to flood when heavy rain comes, with live water levels and alerts from AquaLert community sensors.",
   icons: { icon: "/icon.svg" },
 };
 
@@ -34,11 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to main content
         </a>
         <Providers>
-          <AppHeader />
-          <main id="main" className="container flex-1 py-6" tabIndex={-1}>
-            {children}
-          </main>
-          <SiteFooter />
+          {children}
           <GuidedTour />
         </Providers>
       </body>

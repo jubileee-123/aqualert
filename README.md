@@ -30,7 +30,8 @@ Deploys to Vercel as-is (no extra configuration).
 
 | Route              | Purpose                                                                                                                                |
 | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `/`                | Live overview: summary bar, filters (site, status, time range), site cards with sparkline, or a map view with colour-coded markers.  |
+| `/`                | Landing page: live status of every site, the "how likely is my area to flood?" checker, how it works, flood guide, FAQ.               |
+| `/dashboard`       | Live overview: summary bar, filters (site, status, time range), site cards with sparkline, or a map view with colour-coded markers.  |
 | `/sites/[siteId]`  | Site detail: current status, key readings, node health, water level and rainfall charts with threshold lines (1h/6h/24h/7d), alerts. |
 | `/alerts`          | Alert history: search, site/level/date filters, table, and a detail dialog with trigger values, message text and notification log.   |
 | `/about`           | How AquaLert works, how statuses are decided, and the thresholds for every site.                                                      |
@@ -41,9 +42,12 @@ Deploys to Vercel as-is (no extra configuration).
 
 ```
 app/                     Next.js App Router pages and layout
+  (marketing)/           Landing page at /
+  (dashboard)/           Dashboard pages (/dashboard, /sites, /alerts, /about) with the app header
   api/                   REST route handlers serving the mock data (same contract as the real backend)
 components/
   ui/                    shadcn/ui primitives (button, card, badge, table, select, dialog, …)
+  landing/               Landing page sections and the flood risk checker
   overview/ site/ alerts/ Page-specific components
   status/                Risk and node status badges (icon + text + colour)
   common/                Metric, sparkline, segmented control, empty/error states
@@ -54,6 +58,8 @@ lib/
   hooks/                 TanStack Query hooks and query keys
   store/                 Zustand store for overview filters
   alert-logic.ts         Normal / Watch / Warning rules
+  forecast.ts            Flood likelihood estimator for the landing page checker
+  geocode.ts             Fallback place search (OpenStreetMap Nominatim, Greater Accra only)
 types/                   Shared TypeScript types (AquaLert data dictionary)
 tests/                   Vitest test suite
 ```
@@ -119,9 +125,19 @@ The bundled route handlers in `app/api` implement exactly this contract over the
 
 Some SMS/WhatsApp sends fail and are retried, so the notification log shows realistic delivery trails.
 
+## Flood risk checker
+
+The landing page lets anyone type their area (or use their location), pick a rain intensity and duration, and see how likely flooding is. It is an **estimate, not a forecast**:
+
+1. The area is matched to an AquaLert sensor: the channel that drains it if set in `lib/constants/places.ts` (`channelSiteId`), otherwise the nearest sensor. Confidence drops with distance (high within 2.5 km, medium within 6 km).
+2. `lib/forecast.ts` runs that site's catchment model (the same one the mock data uses) under constant rain, starting from today's live level or dry ground, and applies the alert rules to get the status the channel would reach.
+3. The rise is scaled by the area's exposure factor (very high 1.35 … low 0.82) and turned into a probability with a logistic curve centred just below the danger line: Low < 15 %, Moderate < 40 %, High < 70 %, otherwise Very high. The tipping point is the lowest intensity where flooding becomes more likely than not.
+
+Places and exposure values in `lib/constants/places.ts` are prototype values from general knowledge of Accra's flood-prone corridors; replace them with survey data and recalibrate the curve against real flood records before relying on it. Places not in the list are looked up on OpenStreetMap Nominatim and treated as average exposure.
+
 ## Guided tour
 
-First-time visitors to `/` get a short five-step guided tour covering the essentials on the overview, a site page and the alerts page. Every step has a Skip button. It highlights each part of the screen and explains what it does. Completion is stored in `localStorage` (`aqualert-tour-completed-v1`), and the **Tour** button in the header replays it. Steps are defined in `lib/tour/steps.ts`; each one points at a `data-tour="…"` attribute in the UI, so adding a step means adding an attribute and an entry. The tour can be used with the keyboard (arrow keys, Esc).
+First-time visitors to `/dashboard` get a short five-step guided tour covering the essentials on the overview, a site page and the alerts page. Every step has a Skip button. It highlights each part of the screen and explains what it does. Completion is stored in `localStorage` (`aqualert-tour-completed-v1`), and the **Tour** button in the header replays it. Steps are defined in `lib/tour/steps.ts`; each one points at a `data-tour="…"` attribute in the UI, so adding a step means adding an attribute and an entry. The tour can be used with the keyboard (arrow keys, Esc).
 
 ## Theme
 
