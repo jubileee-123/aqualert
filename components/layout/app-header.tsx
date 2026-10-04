@@ -47,7 +47,7 @@ export function AppHeader() {
         <Link href="/" className="flex items-center gap-2.5 rounded-md focus-visible:ring-offset-[#0b2f4a]">
           <Logo className="h-8 w-8" />
           <span className="flex flex-col leading-tight">
-            <span className="text-lg font-bold tracking-tight">AquaLert</span>
+            <span className="font-display text-xl font-bold tracking-tight">AquaLert</span>
             <span className="text-[11px] font-medium uppercase tracking-wider text-sky-200">Accra flood early warning</span>
           </span>
         </Link>

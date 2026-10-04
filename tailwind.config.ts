@@ -38,6 +38,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: [
+          "var(--font-inter)",
           "system-ui",
           "-apple-system",
           "Segoe UI",
@@ -47,6 +48,7 @@ const config: Config = {
           "Noto Sans",
           "sans-serif",
         ],
+        display: ["var(--font-bricolage)", "var(--font-inter)", "system-ui", "sans-serif"],
       },
       keyframes: {
         "pulse-ring": {

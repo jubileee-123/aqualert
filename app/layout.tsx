@@ -1,8 +1,13 @@
 import type { Metadata, Viewport } from "next";
+import { Bricolage_Grotesque, Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { AppHeader } from "@/components/layout/app-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+
+// Self-hosted at build time by next/font: Inter for body text, Bricolage Grotesque for headings.
+const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
+const bricolage = Bricolage_Grotesque({ subsets: ["latin"], display: "swap", variable: "--font-bricolage" });
 
 export const metadata: Metadata = {
   title: { default: "AquaLert | Accra Flood Early Warning", template: "%s | AquaLert" },
@@ -19,7 +24,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${inter.variable} ${bricolage.variable}`}>
       <body className="flex min-h-screen flex-col">
         <a
           href="#main"
