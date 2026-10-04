@@ -81,7 +81,7 @@ export function SiteDetail({ siteId }: { siteId: string }) {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-3">
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2" data-tour="current-condition">
           {latest.isPending ? (
             <Skeleton className="h-64" />
           ) : (
@@ -95,10 +95,12 @@ export function SiteDetail({ siteId }: { siteId: string }) {
             />
           )}
         </div>
-        <NodeHealthPanel site={s} reading={latest.data ?? null} nowMs={nowMs} />
+        <div data-tour="node-health">
+          <NodeHealthPanel site={s} reading={latest.data ?? null} nowMs={nowMs} />
+        </div>
       </div>
 
-      <section aria-labelledby="trends-heading" className="space-y-4">
+      <section aria-labelledby="trends-heading" className="space-y-4" data-tour="trends">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h2 id="trends-heading" className="text-xl font-bold tracking-tight">
@@ -145,7 +147,7 @@ export function SiteDetail({ siteId }: { siteId: string }) {
         </div>
       </section>
 
-      <Card>
+      <Card data-tour="recent-alerts">
         <CardHeader className="flex-row items-center justify-between space-y-0 pb-2">
           <div>
             <CardTitle className="text-base">Recent alerts</CardTitle>

@@ -32,7 +32,7 @@ export function AlertFilters({ value, sites, onChange, onReset }: Props) {
   const set = <K extends keyof AlertFilterState>(k: K, v: AlertFilterState[K]) => onChange({ ...value, [k]: v });
 
   return (
-    <section aria-label="Alert filters" className="space-y-4 rounded-lg border bg-card p-4 shadow-sm">
+    <section aria-label="Alert filters" data-tour="alert-filters" className="space-y-4 rounded-lg border bg-card p-4 shadow-sm">
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div className="space-y-1.5 sm:col-span-2 lg:col-span-1">
           <Label htmlFor="alert-search">Search</Label>

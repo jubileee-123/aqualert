@@ -9,12 +9,13 @@ interface SegmentedProps<T extends string> {
   options: { value: T; label: ReactNode }[];
   onChange: (value: T) => void;
   className?: string;
+  "data-tour"?: string;
 }
 
 /** Small toggle-button group (radio semantics) used for time ranges and view modes. */
-export function Segmented<T extends string>({ label, value, options, onChange, className }: SegmentedProps<T>) {
+export function Segmented<T extends string>({ label, value, options, onChange, className, "data-tour": dataTour }: SegmentedProps<T>) {
   return (
-    <div role="radiogroup" aria-label={label} className={cn("inline-flex rounded-md border bg-muted p-0.5", className)}>
+    <div role="radiogroup" aria-label={label} data-tour={dataTour} className={cn("inline-flex rounded-md border bg-muted p-0.5", className)}>
       {options.map((o) => {
         const selected = o.value === value;
         return (

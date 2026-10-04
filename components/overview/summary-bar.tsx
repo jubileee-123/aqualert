@@ -34,7 +34,7 @@ export function SummaryBar({ overviews }: SummaryBarProps) {
   ];
 
   return (
-    <section aria-label="System summary" className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+    <section aria-label="System summary" data-tour="summary" className="grid grid-cols-2 gap-3 lg:grid-cols-4">
       {items.map(({ label, value, icon: Icon, tone, hint }) => (
         <div key={label} className="flex items-center gap-3 rounded-lg border bg-card p-3 shadow-sm sm:p-4">
           <span className={cn("flex size-10 shrink-0 items-center justify-center rounded-full", tone)}>

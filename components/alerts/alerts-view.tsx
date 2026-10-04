@@ -97,7 +97,7 @@ export function AlertsView() {
         <p className="text-xs text-muted-foreground">Select a row to see the notification trail.</p>
       </div>
 
-      <div className="rounded-lg border bg-card shadow-sm">
+      <div className="rounded-lg border bg-card shadow-sm" data-tour="alert-table">
         {alerts.isError ? (
           <ErrorState onRetry={() => alerts.refetch()} />
         ) : alerts.isPending ? (

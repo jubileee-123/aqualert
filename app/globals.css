@@ -4,25 +4,26 @@
 
 @layer base {
   :root {
-    --background: 210 33% 98%;
-    --foreground: 222 47% 11%;
+    /* Everything non-status derives from one ocean blue (hue ~200). See lib/theme.ts. */
+    --background: 199 50% 97%;
+    --foreground: 204 70% 12%;
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 204 70% 12%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 205 90% 30%;
+    --popover-foreground: 204 70% 12%;
+    --primary: 200 88% 32%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 210 40% 94%;
-    --secondary-foreground: 222 47% 15%;
-    --muted: 210 40% 95%;
-    --muted-foreground: 215 19% 35%;
-    --accent: 205 60% 94%;
-    --accent-foreground: 205 90% 22%;
+    --secondary: 199 60% 93%;
+    --secondary-foreground: 202 70% 20%;
+    --muted: 199 45% 94%;
+    --muted-foreground: 203 30% 32%;
+    --accent: 199 70% 92%;
+    --accent-foreground: 201 75% 24%;
     --destructive: 0 74% 42%;
     --destructive-foreground: 0 0% 100%;
-    --border: 214 28% 85%;
-    --input: 214 28% 75%;
-    --ring: 205 90% 40%;
+    --border: 199 35% 85%;
+    --input: 199 30% 74%;
+    --ring: 199 80% 40%;
     --radius: 0.6rem;
 
     /* Status colours chosen for >= 4.5:1 contrast of text on their tinted backgrounds. */
@@ -53,6 +54,16 @@
   }
   :focus-visible {
     @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+/* Keep tour targets clear of the sticky header when scrolled into view. */
+[data-tour] {
+  scroll-margin-top: 170px;
+}
+@media (min-width: 640px) {
+  [data-tour] {
+    scroll-margin-top: 96px;
   }
 }
 

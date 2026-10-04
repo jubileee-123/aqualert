@@ -19,7 +19,7 @@ export function OverviewFilters({ sites }: { sites: Site[] }) {
   const filtered = siteId !== "all" || status !== "all";
 
   return (
-    <section aria-label="Filters" className="flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm lg:flex-row lg:items-end">
+    <section aria-label="Filters" data-tour="filters" className="flex flex-col gap-4 rounded-lg border bg-card p-4 shadow-sm lg:flex-row lg:items-end">
       <div className="grid flex-1 grid-cols-1 gap-3 sm:grid-cols-2 lg:max-w-xl">
         <div className="space-y-1.5">
           <Label htmlFor="filter-site">Site</Label>
@@ -58,6 +58,7 @@ export function OverviewFilters({ sites }: { sites: Site[] }) {
           <Segmented label="Time range" value={timeRange} options={OVERVIEW_RANGES} onChange={setTimeRange} />
         </div>
         <Segmented
+          data-tour="view-toggle"
           label="View"
           value={view}
           onChange={setView}

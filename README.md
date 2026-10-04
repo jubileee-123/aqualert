@@ -119,6 +119,14 @@ The bundled route handlers in `app/api` implement exactly this contract over the
 
 Some SMS/WhatsApp sends fail and are retried, so the notification log shows realistic delivery trails.
 
+## Guided tour
+
+First-time visitors to `/` get a 15-step guided tour covering the overview, a site page and the alerts page. It highlights each part of the screen and explains what it does. Completion is stored in `localStorage` (`aqualert-tour-completed-v1`), and the **Tour** button in the header replays it. Steps are defined in `lib/tour/steps.ts`; each one points at a `data-tour="…"` attribute in the UI, so adding a step means adding an attribute and an entry. The tour can be used with the keyboard (arrow keys, Esc).
+
+## Theme
+
+The UI uses one ocean-blue palette, defined in `lib/theme.ts` (the Tailwind `ocean-*` scale) and in the CSS variables in `app/globals.css`. Green, amber, red and grey are reserved for the Normal, Watch, Warning and Stale/Offline statuses, because those colours carry safety meaning.
+
 ## Accessibility
 
 Status is always shown as colour + icon + text; status colours meet WCAG AA contrast on their backgrounds. All controls are keyboard-operable with visible focus rings, there is a skip link, charts include text summaries for screen readers, and motion is reduced when the user prefers it. The map uses OpenStreetMap tiles and needs internet access; the grid view and site list work without it.

@@ -14,6 +14,7 @@ import {
 } from "recharts";
 import type { AlertThresholds, SensorReading, TimeRange } from "@/types";
 import { RISK_META } from "@/lib/status";
+import { OCEAN } from "@/lib/theme";
 import { formatAxisTime, formatDateTime, formatNumber, formatRise } from "@/lib/format";
 import { AXIS_STYLE, GRID_STROKE, isMultiDay } from "./chart-utils";
 
@@ -102,7 +103,7 @@ export const WaterLevelChart = memo(function WaterLevelChart({ readings, thresho
             <Line
               type="monotone"
               dataKey="level"
-              stroke="#0b4f7c"
+              stroke={OCEAN[700]}
               strokeWidth={2.25}
               isAnimationActive={false}
               dot={(props: { cx?: number; cy?: number; payload?: Point; key?: string }) =>
@@ -120,7 +121,7 @@ export const WaterLevelChart = memo(function WaterLevelChart({ readings, thresho
       <figcaption className="space-y-2 text-xs text-muted-foreground">
         <ul className="flex flex-wrap gap-x-4 gap-y-1" aria-label="Chart legend">
           <li className="inline-flex items-center gap-1.5">
-            <span className="h-0.5 w-5 bg-[#0b4f7c]" aria-hidden="true" /> Water level
+            <span className="h-0.5 w-5 bg-ocean-700" aria-hidden="true" /> Water level
           </li>
           <li className="inline-flex items-center gap-1.5">
             <span className="w-5 border-t-2 border-dashed" style={{ borderColor: RISK_META.WATCH.hex }} aria-hidden="true" />

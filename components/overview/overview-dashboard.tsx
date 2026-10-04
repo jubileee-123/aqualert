@@ -104,8 +104,8 @@ export function OverviewDashboard() {
         </div>
       ) : (
         <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3" aria-label="Monitoring sites">
-          {visible.map((o) => (
-            <li key={o.site.siteId}>
+          {visible.map((o, i) => (
+            <li key={o.site.siteId} data-tour={i === 0 ? "site-card" : undefined}>
               <LiveSiteCard
                 overview={o}
                 nowMs={nowMs}

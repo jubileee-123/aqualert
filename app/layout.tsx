@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import { AppHeader } from "@/components/layout/app-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { GuidedTour } from "@/components/tour/guided-tour";
 
 // Self-hosted at build time by next/font: Inter for body text, Bricolage Grotesque for headings.
 const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b4f7c",
+  themeColor: "#0a2639",
   width: "device-width",
   initialScale: 1,
 };
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {children}
           </main>
           <SiteFooter />
+          <GuidedTour />
         </Providers>
       </body>
     </html>
