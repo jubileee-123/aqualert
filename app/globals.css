@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 33% 98%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 205 90% 30%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 94%;
+    --secondary-foreground: 222 47% 15%;
+    --muted: 210 40% 95%;
+    --muted-foreground: 215 19% 35%;
+    --accent: 205 60% 94%;
+    --accent-foreground: 205 90% 22%;
+    --destructive: 0 74% 42%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214 28% 85%;
+    --input: 214 28% 75%;
+    --ring: 205 90% 40%;
+    --radius: 0.6rem;
+
+    /* Status colours chosen for >= 4.5:1 contrast of text on their tinted backgrounds. */
+    --status-normal: 142 72% 24%;
+    --status-normal-bg: 141 76% 93%;
+    --status-watch: 26 90% 32%;
+    --status-watch-bg: 45 96% 89%;
+    --status-warning: 0 74% 40%;
+    --status-warning-bg: 0 93% 94%;
+    --status-offline: 215 16% 32%;
+    --status-offline-bg: 214 25% 90%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "tnum" 1;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+/* Leaflet's container must not trap page focus styles or overflow the card. */
+.leaflet-container {
+  font: inherit;
+  z-index: 0;
+}
+.leaflet-container a.leaflet-popup-close-button:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
