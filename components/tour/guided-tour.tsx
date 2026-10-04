@@ -264,20 +264,36 @@ export function GuidedTour() {
           </div>
 
           <div className="mt-4 flex items-center justify-between gap-2">
-            {isFirst ? (
-              <Button variant="ghost" size="sm" onClick={end}>
+            {/* Skip is offered on every step, not just the first. */}
+            {!isLast ? (
+              <Button variant="ghost" size="sm" onClick={end} className="text-muted-foreground">
                 Skip tour
               </Button>
             ) : (
-              <Button variant="ghost" size="sm" onClick={back}>
-                <ArrowLeft aria-hidden="true" />
-                Back
-              </Button>
+              <span />
             )}
-            <Button ref={primaryRef} size="sm" onClick={next}>
-              {isFirst ? "Start tour" : isLast ? "Finish" : "Next"}
-              {isLast ? <Check aria-hidden="true" /> : <ArrowRight aria-hidden="true" />}
-            </Button>
+            <div className="flex items-center gap-2">
+              {!isFirst && (
+                <Button variant="outline" size="sm" onClick={back} aria-label="Previous step">
+                  <ArrowLeft aria-hidden="true" />
+                  <span className="hidden sm:inline">Back</span>
+                </Button>
+              )}
+              <Button
+              ref={primaryRef}
+              size="sm"
+              onClick={() => {
+                // Finishing returns people to the overview, where they started.
+                if (isLast) {
+                  end();
+                  router.push("/");
+                } else next();
+              }}
+            >
+                {isFirst ? "Start tour" : isLast ? "Finish" : "Next"}
+                {isLast ? <Check aria-hidden="true" /> : <ArrowRight aria-hidden="true" />}
+              </Button>
+            </div>
           </div>
           <p className="sr-only" aria-live="polite">
             {step.title}

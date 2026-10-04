@@ -6,9 +6,11 @@ import { useTour } from "@/lib/store/tour";
 import { TOUR_STEPS } from "@/lib/tour/steps";
 
 const push = vi.fn();
+// Next's router object is stable between renders; mirror that.
+const router = { push };
 vi.mock("next/navigation", () => ({
   usePathname: () => "/",
-  useRouter: () => ({ push }),
+  useRouter: () => router,
 }));
 
 beforeEach(() => {
@@ -35,14 +37,15 @@ describe("GuidedTour", () => {
     expect(screen.queryByRole("dialog")).toBeNull();
   });
 
-  it("steps forward and back, and explains the three statuses", async () => {
+  it("steps forward and back, and explains the three statuses", { timeout: 15000 }, async () => {
     render(<GuidedTour />);
     act(() => useTour.getState().start());
     await userEvent.click(await screen.findByRole("button", { name: /Start tour/ }));
-    const dialog = await screen.findByRole("dialog", { name: "Three levels of flood risk" });
+    // Targeted steps fall back to a centred card when their element is missing (as in jsdom).
+    const dialog = await screen.findByRole("dialog", { name: "Three levels of flood risk" }, { timeout: 7000 });
     expect(dialog).toHaveTextContent("Warning (red)");
     expect(dialog).toHaveTextContent(`Step 1 of ${TOUR_STEPS.length - 1}`);
-    await userEvent.click(screen.getByRole("button", { name: /Back/ }));
+    await userEvent.click(screen.getByRole("button", { name: "Previous step" }));
     expect(await screen.findByRole("dialog", { name: "Welcome to AquaLert" })).toBeInTheDocument();
   });
 
@@ -60,6 +63,35 @@ describe("GuidedTour", () => {
     await userEvent.keyboard("{Escape}");
     expect(screen.queryByRole("dialog")).toBeNull();
     expect(window.localStorage.getItem("aqualert-tour-completed-v1")).toBe("1");
+  });
+
+  it("offers Skip on every step except the last, and skipping ends the tour", async () => {
+    // jsdom has no layout; give anchors a size so targeted steps resolve immediately.
+    const rectSpy = vi
+      .spyOn(Element.prototype, "getBoundingClientRect")
+      .mockReturnValue({ top: 100, left: 20, width: 300, height: 120, bottom: 220, right: 320, x: 20, y: 100, toJSON: () => ({}) });
+    Element.prototype.scrollIntoView = vi.fn();
+    render(
+      <>
+        <div data-tour="summary" />
+        <div data-tour="site-card" />
+        <GuidedTour />
+      </>,
+    );
+    // The mocked router stays on "/", so check every overview step.
+    const overviewSteps = TOUR_STEPS.map((s, i) => ({ s, i })).filter(({ s, i }) => s.path === "/" && i < TOUR_STEPS.length - 1);
+    for (const { i } of overviewSteps) {
+      act(() => useTour.setState({ active: true, index: i }));
+      expect(await screen.findByRole("button", { name: "Skip tour" })).toBeInTheDocument();
+    }
+    await userEvent.click(screen.getByRole("button", { name: "Skip tour" }));
+    expect(screen.queryByRole("dialog")).toBeNull();
+    expect(window.localStorage.getItem("aqualert-tour-completed-v1")).toBe("1");
+    rectSpy.mockRestore();
+  });
+
+  it("is short: only the essential steps", () => {
+    expect(TOUR_STEPS.length).toBeLessThanOrEqual(6);
   });
 
   it("every targeted step points at a data-tour anchor", () => {

@@ -121,7 +121,7 @@ Some SMS/WhatsApp sends fail and are retried, so the notification log shows real
 
 ## Guided tour
 
-First-time visitors to `/` get a 15-step guided tour covering the overview, a site page and the alerts page. It highlights each part of the screen and explains what it does. Completion is stored in `localStorage` (`aqualert-tour-completed-v1`), and the **Tour** button in the header replays it. Steps are defined in `lib/tour/steps.ts`; each one points at a `data-tour="…"` attribute in the UI, so adding a step means adding an attribute and an entry. The tour can be used with the keyboard (arrow keys, Esc).
+First-time visitors to `/` get a short five-step guided tour covering the essentials on the overview, a site page and the alerts page. Every step has a Skip button. It highlights each part of the screen and explains what it does. Completion is stored in `localStorage` (`aqualert-tour-completed-v1`), and the **Tour** button in the header replays it. Steps are defined in `lib/tour/steps.ts`; each one points at a `data-tour="…"` attribute in the UI, so adding a step means adding an attribute and an entry. The tour can be used with the keyboard (arrow keys, Esc).
 
 ## Theme
 
